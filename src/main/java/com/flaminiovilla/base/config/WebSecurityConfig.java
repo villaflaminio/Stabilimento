@@ -1,7 +1,7 @@
 package com.flaminiovilla.base.config;
 
-import com.flaminiovilla.base.security.JwtAccessDeniedHandler;
-import com.flaminiovilla.base.security.JwtAuthenticationEntryPoint;
+import com.flaminiovilla.base.security.exception.JwtAccessDeniedHandler;
+import com.flaminiovilla.base.security.exception.JwtAuthenticationEntryPoint;
 import com.flaminiovilla.base.security.jwt.JWTConfigurer;
 import com.flaminiovilla.base.security.jwt.TokenProvider;
 import org.springframework.context.annotation.Bean;
@@ -41,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    // Configure BCrypt password encoder =====================================================================
 
    @Bean
-   public PasswordEncoder passwordEncoder() {
+   public static PasswordEncoder passwordEncoder() {
       return new BCryptPasswordEncoder();
    }
 
@@ -54,7 +54,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
          // allow anonymous resource requests
          .antMatchers(
-            "/",
             "/*.html",
             "/favicon.ico",
             "/**/*.html",
@@ -92,7 +91,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
          .and()
          .authorizeRequests()
          .antMatchers("/api/authenticate").permitAll()
-         // .antMatchers("/api/register").permitAll()
+        // .antMatchers("/api/register").permitAll()
+
+              // .antMatchers("/api/register").permitAll()
          // .antMatchers("/api/activate").permitAll()
          // .antMatchers("/api/account/reset-password/init").permitAll()
          // .antMatchers("/api/account/reset-password/finish").permitAll()

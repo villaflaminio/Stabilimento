@@ -1,4 +1,4 @@
-package com.flaminiovilla.base.security;
+package com.flaminiovilla.base.security.exception;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

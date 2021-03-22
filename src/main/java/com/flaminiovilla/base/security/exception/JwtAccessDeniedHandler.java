@@ -1,4 +1,4 @@
-package com.flaminiovilla.base.security;
+package com.flaminiovilla.base.security.exception;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

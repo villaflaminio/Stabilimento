@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
- * Filters incoming requests and installs a Spring Security principal if a header corresponding to a valid user is
- * found.
+ * Filtra le richieste in arrivo ed aggiunge Spring Security
+ * per gli header che corrispondono ad un utente valido
  */
 public class JWTFilter extends GenericFilterBean {
 
@@ -30,6 +30,10 @@ public class JWTFilter extends GenericFilterBean {
       this.tokenProvider = tokenProvider;
    }
 
+   /**
+    * il token viene validato da tokenProvideUSERr
+    * Authentication viene inserita nel SecurityContextHolder
+    */
    @Override
    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
       throws IOException, ServletException {

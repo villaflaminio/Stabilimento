@@ -1,5 +1,6 @@
 package com.flaminiovilla.base.security;
 
+import com.flaminiovilla.base.security.exception.UserNotActivatedException;
 import com.flaminiovilla.base.security.model.User;
 import com.flaminiovilla.base.security.repository.UserRepository;
 import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator;
@@ -43,7 +44,7 @@ public class UserModelDetailsService implements UserDetailsService {
       }
 
       String lowercaseLogin = login.toLowerCase(Locale.ENGLISH);
-      return userRepository.findOneWithAuthoritiesByUsername(lowercaseLogin)
+      return userRepository.findOneWithAuthoritiesByEmail(lowercaseLogin)
          .map(user -> createSpringSecurityUser(lowercaseLogin, user))
          .orElseThrow(() -> new UsernameNotFoundException("User " + lowercaseLogin + " was not found in the database"));
 
@@ -56,7 +57,7 @@ public class UserModelDetailsService implements UserDetailsService {
       List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
          .map(authority -> new SimpleGrantedAuthority(authority.getName()))
          .collect(Collectors.toList());
-      return new org.springframework.security.core.userdetails.User(user.getUsername(),
+      return new org.springframework.security.core.userdetails.User(user.getEmail(),
          user.getPassword(),
          grantedAuthorities);
    }

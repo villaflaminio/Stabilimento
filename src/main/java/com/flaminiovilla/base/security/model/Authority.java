@@ -1,9 +1,11 @@
 package com.flaminiovilla.base.security.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
-
+@Data
 @Entity
 @Table(name = "AUTHORITY")
 public class Authority {
@@ -12,14 +14,6 @@ public class Authority {
    @Column(name = "NAME", length = 50)
    @NotNull
    private String name;
-
-   public String getName() {
-      return name;
-   }
-
-   public void setName(String name) {
-      this.name = name;
-   }
 
    @Override
    public boolean equals(Object o) {
