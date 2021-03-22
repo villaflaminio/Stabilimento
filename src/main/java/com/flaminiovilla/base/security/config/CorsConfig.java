@@ -1,4 +1,4 @@
-package com.flaminiovilla.base.config;
+package com.flaminiovilla.base.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

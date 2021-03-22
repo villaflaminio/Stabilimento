@@ -1,24 +1,37 @@
 package com.flaminiovilla.base.security.rest;
 
+import com.flaminiovilla.base.security.helper.UserHelper;
 import com.flaminiovilla.base.security.model.User;
-import com.flaminiovilla.base.security.service.UserService;
+import com.flaminiovilla.base.security.rest.dto.LoginDTO;
+import com.flaminiovilla.base.security.rest.dto.UserDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
+import javax.validation.Valid;
+
+/**
+ * Controller to authenticate users.
+ */
 @RestController
 @RequestMapping("/api")
 public class UserRestController {
 
-   private final UserService userService;
+   @Autowired
+   UserHelper userHelper;
 
-   public UserRestController(UserService userService) {
-      this.userService = userService;
+   @PostMapping("/authenticate")
+   public ResponseEntity<UserHelper.JWTToken> authorize(@Valid @RequestBody LoginDTO loginDto) {
+      return userHelper.authorize(loginDto);
    }
 
-   @GetMapping("/user")
-   public ResponseEntity<User> getActualUser() {
-      return ResponseEntity.ok(userService.getUserWithAuthorities().get());
+   @PostMapping("/register")
+   public User authorize(@Valid @RequestBody UserDTO userDTO) {
+      return userHelper.register(userDTO);
    }
+
 }

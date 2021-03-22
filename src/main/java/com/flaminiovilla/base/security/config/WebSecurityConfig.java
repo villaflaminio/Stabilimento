@@ -1,4 +1,4 @@
-package com.flaminiovilla.base.config;
+package com.flaminiovilla.base.security.config;
 
 import com.flaminiovilla.base.security.exception.JwtAccessDeniedHandler;
 import com.flaminiovilla.base.security.exception.JwtAuthenticationEntryPoint;
@@ -98,8 +98,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
          // .antMatchers("/api/account/reset-password/init").permitAll()
          // .antMatchers("/api/account/reset-password/finish").permitAll()
 
-         .antMatchers("/api/person").hasAuthority("ROLE_USER")
-         .antMatchers("/api/hiddenmessage").hasAuthority("ROLE_ADMIN")
+         .antMatchers("/api/testUser").hasAuthority("ROLE_USER")
+         .antMatchers("/api/testAdmin").hasAuthority("ROLE_ADMIN")
 
          .anyRequest().authenticated()
 

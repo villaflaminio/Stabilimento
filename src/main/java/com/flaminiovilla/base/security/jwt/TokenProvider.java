@@ -58,7 +58,7 @@ public class TokenProvider implements InitializingBean {
    /**
     * rememberMe indica che il token dell'utente deve avere durata maggiore
     *
-    *  AuthenticationRestController con api/authenticate
+    *  UserRestController con api/authenticate
     * **/
    public String createToken(Authentication authentication, boolean rememberMe) {
       String authorities = authentication.getAuthorities().stream()
