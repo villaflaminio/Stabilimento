@@ -94,6 +94,7 @@ public class UserHelper {
         Preconditions.checkArgument(Objects.nonNull(userDTO.role));
         Preconditions.checkArgument(Objects.nonNull(userDTO.firstName));
         Preconditions.checkArgument(Objects.nonNull(userDTO.lastName));
+        Preconditions.checkArgument(Objects.nonNull(userDTO.phone));
     }
 
     public User register(UserDTO userDTO) {
@@ -104,6 +105,7 @@ public class UserHelper {
                     .password(bcryptEncoder.encode(userDTO.password))
                     .firstName(userDTO.firstName)
                     .lastName(userDTO.lastName)
+                    .phone(userDTO.phone)
                     .activated(true)
                     .authorities(role(userDTO))
                     .build());

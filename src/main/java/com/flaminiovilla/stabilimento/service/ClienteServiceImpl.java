@@ -1,6 +1,6 @@
 package com.flaminiovilla.stabilimento.service;
 
-import com.flaminiovilla.stabilimento.helper.BasicHelper;
+import com.flaminiovilla.stabilimento.helper.ClienteHelper;
 import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,16 +8,15 @@ import org.springframework.stereotype.Service;
 import java.util.Objects;
 
 @Service
-public class BasicServiceImpl implements BasicService {
+public class ClienteServiceImpl implements ClienteService {
 
     @Autowired
-    BasicHelper basicHelper;
+    ClienteHelper clienteHelper;
 
 
     @Override
     public Boolean search(String search) {
-        Preconditions.checkArgument(!Objects.isNull(search));
-        return basicHelper.search(search);
+       return null;
     }
 
 }

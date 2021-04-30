@@ -1,8 +1,10 @@
 package com.flaminiovilla.stabilimento.security.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.hibernate.annotations.BatchSize;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
@@ -51,6 +53,11 @@ public class User {
    @Column(name = "activated")
    @NotNull
    private boolean activated;
+
+   @Column(name = "phone", length = 50)
+   @NotNull
+   @Size(min = 1, max = 50)
+   private String phone;
 
    @ManyToMany
    @JoinTable(

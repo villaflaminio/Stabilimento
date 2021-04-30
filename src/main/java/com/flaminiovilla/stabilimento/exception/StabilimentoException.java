@@ -1,6 +1,6 @@
 package com.flaminiovilla.stabilimento.exception;
 
-public class BasicException extends RuntimeException{
+public class StabilimentoException extends RuntimeException{
     public enum basicExceptionCode{
         CATEGORY_NOT_EXIST,
         SECRETARY_NOT_EXIST,
@@ -13,7 +13,7 @@ public class BasicException extends RuntimeException{
         STRUCTURE_ID_NOT_EXIST
         }
 
-    public BasicException(BasicException.basicExceptionCode message) {
+    public StabilimentoException(StabilimentoException.basicExceptionCode message) {
         super(message.toString());
     }
 }

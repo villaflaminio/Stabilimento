@@ -21,93 +21,93 @@ import org.springframework.web.filter.CorsFilter;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-   private final TokenProvider tokenProvider;
-   private final CorsFilter corsFilter;
-   private final JwtAuthenticationEntryPoint authenticationErrorHandler;
-   private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final TokenProvider tokenProvider;
+    private final CorsFilter corsFilter;
+    private final JwtAuthenticationEntryPoint authenticationErrorHandler;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
-   public WebSecurityConfig(
-      TokenProvider tokenProvider,
-      CorsFilter corsFilter,
-      JwtAuthenticationEntryPoint authenticationErrorHandler,
-      JwtAccessDeniedHandler jwtAccessDeniedHandler
-   ) {
-      this.tokenProvider = tokenProvider;
-      this.corsFilter = corsFilter;
-      this.authenticationErrorHandler = authenticationErrorHandler;
-      this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
-   }
+    public WebSecurityConfig(
+            TokenProvider tokenProvider,
+            CorsFilter corsFilter,
+            JwtAuthenticationEntryPoint authenticationErrorHandler,
+            JwtAccessDeniedHandler jwtAccessDeniedHandler
+    ) {
+        this.tokenProvider = tokenProvider;
+        this.corsFilter = corsFilter;
+        this.authenticationErrorHandler = authenticationErrorHandler;
+        this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
+    }
 
-   // Configure BCrypt password encoder =====================================================================
+    // Configure BCrypt password encoder =====================================================================
 
-   @Bean
-   public static PasswordEncoder passwordEncoder() {
-      return new BCryptPasswordEncoder();
-   }
+    @Bean
+    public static PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-   // Configure paths and requests that should be ignored by Spring Security ================================
+    // Configure paths and requests that should be ignored by Spring Security ================================
 
-   @Override
-   public void configure(WebSecurity web) {
-      web.ignoring()
-         .antMatchers(HttpMethod.OPTIONS, "/**")
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring()
+                .antMatchers(HttpMethod.OPTIONS, "/**")
 
-         // allow anonymous resource requests
-         .antMatchers(
-            "/*.html",
-            "/favicon.ico",
-            "/**/*.html",
-            "/**/*.css",
-            "/**/*.js",
-            "/h2-console/**"
-         );
-   }
+                // allow anonymous resource requests
+                .antMatchers(
+                        "/*.html",
+                        "/favicon.ico",
+                        "/**/*.html",
+                        "/**/*.css",
+                        "/**/*.js",
+                        "/h2-console/**"
+                );
+    }
 
-   // Configure security settings ===========================================================================
+    // Configure security settings ===========================================================================
 
-   @Override
-   protected void configure(HttpSecurity httpSecurity) throws Exception {
-      httpSecurity
-         // we don't need CSRF because our token is invulnerable
-         .csrf().disable()
+    @Override
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                // we don't need CSRF because our token is invulnerable
+                .csrf().disable()
 
-         .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
 
-         .exceptionHandling()
-         .authenticationEntryPoint(authenticationErrorHandler)
-         .accessDeniedHandler(jwtAccessDeniedHandler)
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticationErrorHandler)
+                .accessDeniedHandler(jwtAccessDeniedHandler)
 
-         // enable h2-console
-         .and()
-         .headers()
-         .frameOptions()
-         .sameOrigin()
+                // enable h2-console
+                .and()
+                .headers()
+                .frameOptions()
+                .sameOrigin()
 
-         // create no session
-         .and()
-         .sessionManagement()
-         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                // create no session
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
-         .and()
-         .authorizeRequests()
-         .antMatchers("/api/authenticate").permitAll()
-        // .antMatchers("/api/register").permitAll()
+                .and()
+                .authorizeRequests()
+                .antMatchers("/api/authenticate").permitAll()
 
-              // .antMatchers("/api/register").permitAll()
-         // .antMatchers("/api/activate").permitAll()
-         // .antMatchers("/api/account/reset-password/init").permitAll()
-         // .antMatchers("/api/account/reset-password/finish").permitAll()
+                .antMatchers("/cliente/*").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/ombrellone/*").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/prenotazione/*").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/stabilimento/*").hasAuthority("ROLE_ADMIN")
 
-         .antMatchers("/api/testUser").hasAuthority("ROLE_USER")
-         .antMatchers("/api/testAdmin").hasAuthority("ROLE_ADMIN")
 
-         .anyRequest().authenticated()
+                .antMatchers("/api/testUser").hasAuthority("ROLE_USER")
+                .antMatchers("/api/testAdmin").hasAuthority("ROLE_ADMIN")
 
-         .and()
-         .apply(securityConfigurerAdapter());
-   }
+                .anyRequest().authenticated()
 
-   private JWTConfigurer securityConfigurerAdapter() {
-      return new JWTConfigurer(tokenProvider);
-   }
+                .and()
+                .apply(securityConfigurerAdapter());
+    }
+
+    private JWTConfigurer securityConfigurerAdapter() {
+        return new JWTConfigurer(tokenProvider);
+    }
 }

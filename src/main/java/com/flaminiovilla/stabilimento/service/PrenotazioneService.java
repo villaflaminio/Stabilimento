@@ -1,6 +1,6 @@
 package com.flaminiovilla.stabilimento.service;
 
-public interface BasicService {
+public interface PrenotazioneService {
     Boolean search(String search);
 
 }
